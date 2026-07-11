@@ -172,7 +172,8 @@ const ThemeToggle = ({ isDarkMode, onToggle, id = "moon-mask" }) => {
 
 function App() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [formStatus, setFormStatus] = useState('idle'); // idle, submitting, success
+  const [formStatus, setFormStatus] = useState('idle'); // idle, submitting, success, error
+  const [formErrors, setFormErrors] = useState({});
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [cursorPos, setCursorPos] = useState({ x: -100, y: -100 });
   const [isHovering, setIsHovering] = useState(false);
@@ -270,13 +271,48 @@ function App() {
     setIsMobileMenuOpen(false);
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
+    
+    const form = e.target;
+    const name = form.name.value.trim();
+    const email = form.email.value.trim();
+    const projectType = form.type.value;
+    const message = form.message.value.trim();
+
+    let errors = {};
+    if (!name) errors.name = "Name is required.";
+    if (!email) {
+      errors.email = "Email is required.";
+    } else if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)) {
+      errors.email = "Please enter a valid email address.";
+    }
+    if (!message) errors.message = "Message is required.";
+    
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
+      return;
+    }
+    
+    setFormErrors({});
     setFormStatus('submitting');
-    // Simulate form submission
-    setTimeout(() => {
-      setFormStatus('success');
-    }, 1000);
+    
+    try {
+      const response = await fetch("https://formspree.io/f/mjgnbkbw", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({ name, email, projectType, message })
+      });
+      
+      if (response.ok) {
+        setFormStatus('success');
+        form.reset();
+      } else {
+        setFormStatus('error');
+      }
+    } catch (error) {
+      setFormStatus('error');
+    }
   };
 
   const aboutSegments = [
@@ -669,20 +705,27 @@ function App() {
                   </button>
                 </div>
               ) : (
-                <form onSubmit={handleFormSubmit} className="space-y-6">
+                <form onSubmit={handleFormSubmit} className="space-y-6" noValidate>
+                  {formStatus === 'error' && (
+                    <div className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 rounded-lg text-sm text-center">
+                      Something went wrong — please email me directly at Muhmdsayed21@gmail.com
+                    </div>
+                  )}
                   <div>
                     <label htmlFor="name" className="input-label">Name</label>
-                    <input type="text" id="name" required className="input-field" placeholder="Jane Doe" />
+                    <input type="text" id="name" name="name" className={`input-field ${formErrors.name ? 'border-red-500 focus:border-red-500' : ''}`} placeholder="Jane Doe" />
+                    {formErrors.name && <p className="text-red-500 text-xs mt-1.5 font-medium">{formErrors.name}</p>}
                   </div>
                   <div>
                     <label htmlFor="email" className="input-label">Email</label>
-                    <input type="email" id="email" required className="input-field" placeholder="jane@example.com" />
+                    <input type="email" id="email" name="email" className={`input-field ${formErrors.email ? 'border-red-500 focus:border-red-500' : ''}`} placeholder="jane@example.com" />
+                    {formErrors.email && <p className="text-red-500 text-xs mt-1.5 font-medium">{formErrors.email}</p>}
                   </div>
                   <div>
                     <label htmlFor="type" className="input-label">Project Type</label>
                     <div className="relative">
-                      <select id="type" required className="input-field appearance-none bg-white">
-                        <option value="" disabled selected>Select an option</option>
+                      <select id="type" name="type" defaultValue="" className="input-field appearance-none bg-white dark:bg-[#0E0E10]">
+                        <option value="" disabled>Select an option</option>
                         <option value="Video Editing">Video Editing</option>
                         <option value="Branding">Branding</option>
                         <option value="Full Production">Full Production</option>
@@ -695,7 +738,8 @@ function App() {
                   </div>
                   <div>
                     <label htmlFor="message" className="input-label">Message</label>
-                    <textarea id="message" required rows="4" className="input-field resize-y" placeholder="Tell me about your project..."></textarea>
+                    <textarea id="message" name="message" rows="4" className={`input-field resize-y ${formErrors.message ? 'border-red-500 focus:border-red-500' : ''}`} placeholder="Tell me about your project..."></textarea>
+                    {formErrors.message && <p className="text-red-500 text-xs mt-1.5 font-medium">{formErrors.message}</p>}
                   </div>
                   <button
                     type="submit"
