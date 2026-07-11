@@ -1,0 +1,67 @@
+:root {
+  /* Color Palette - Dark Glassmorphism */
+  --bg-base: #0f1115;
+  --bg-panel: rgba(25, 28, 35, 0.7);
+  --bg-panel-hover: rgba(35, 40, 50, 0.8);
+  --border-color: rgba(255, 255, 255, 0.1);
+  
+  --text-primary: #f0f0f0;
+  --text-secondary: #a0aab5;
+  --accent: #ff4757; /* A subtle photography red accent */
+  --accent-hover: #ff6b81;
+
+  --panel-blur: blur(16px);
+  --radius-lg: 12px;
+  --radius-md: 8px;
+  --radius-sm: 4px;
+
+  /* Typography */
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  overflow: hidden; /* Canvas takes over */
+  width: 100vw;
+  height: 100vh;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+/* Base UI panel styles */
+.panel {
+  background: var(--bg-panel);
+  backdrop-filter: var(--panel-blur);
+  -webkit-backdrop-filter: var(--panel-blur);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 1rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
