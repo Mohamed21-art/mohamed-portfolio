@@ -7,23 +7,20 @@ import CoverflowCarousel from './CoverflowCarousel';
 import CustomCursor from './CustomCursor';
 import heroBg from './assets/d59f90ac-4ec9-49ef-a568-b4420caa1e3f.jpeg';
 
-const ScrollRevealItem = ({ children, progress, index, count, className, dataCursor }) => {
+const ScrollRevealItem = ({ children, index, className, dataCursor }) => {
   const prefersReducedMotion = typeof window !== 'undefined' ? window.matchMedia("(prefers-reduced-motion: reduce)").matches : false;
-
-  const staggerStep = count > 1 ? 0.6 / (count - 1) : 0;
-  const start = index * staggerStep;
-  const end = Math.min(start + 0.4, 1);
-
-  const opacity = useTransform(progress, [start, end], [0, 1]);
-  const y = useTransform(progress, [start, end], [30, 0]);
 
   if (prefersReducedMotion) {
     return <div className={className} data-cursor={dataCursor}>{children}</div>;
   }
 
+  // Adjust delay on desktop for a staggered effect, but keep it snappy
   return (
     <motion.div
-      style={{ opacity, y, willChange: 'opacity, transform' }}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.1 }}
+      transition={{ duration: 0.5, delay: Math.min(index * 0.1, 0.3), ease: "easeOut" }}
       className={className}
       data-cursor={dataCursor}
     >
@@ -394,7 +391,7 @@ function App() {
       <main className="max-w-custom mx-auto px-6 lg:px-8 pt-32 md:pt-48 relative overflow-hidden md:overflow-visible">
 
         {/* 2. HERO */}
-        <section className="min-h-[60vh] flex flex-col justify-center section-padding pt-0 relative z-10">
+        <section className="min-h-[40vh] md:min-h-[50vh] flex flex-col justify-center section-padding pt-0 relative z-10">
           <div className="flex items-center gap-2 mb-6 reveal">
             <div className="w-2.5 h-2.5 rounded-full bg-accent rec-pulse shadow-[0_0_8px_rgba(217,119,87,0.8)]"></div>
             <span className="mono-label !mb-0 tracking-[0.1em] text-[11px] font-bold">REC</span>
@@ -434,7 +431,7 @@ function App() {
         </section>
 
         {/* INSIGHTS */}
-        <section className="pt-12 md:pt-16 pb-16 md:pb-24">
+        <section className="pt-4 md:pt-8 pb-16 md:pb-24">
           <div className="max-w-7xl mx-auto px-4 md:px-8">
             {/* Header matches the screenshot structure */}
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 reveal">
