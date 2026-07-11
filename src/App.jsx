@@ -284,7 +284,7 @@ function App() {
     if (!name) errors.name = "Name is required.";
     if (!email) {
       errors.email = "Email is required.";
-    } else if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)) {
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       errors.email = "Please enter a valid email address.";
     }
     if (!message) errors.message = "Message is required.";
@@ -713,12 +713,12 @@ function App() {
                   )}
                   <div>
                     <label htmlFor="name" className="input-label">Name</label>
-                    <input type="text" id="name" name="name" className={`input-field ${formErrors.name ? 'border-red-500 focus:border-red-500' : ''}`} placeholder="Jane Doe" />
+                    <input type="text" id="name" name="name" className={`input-field ${formErrors.name ? 'border-red-500 focus:border-red-500' : ''}`} placeholder="Ahmed Al Mansouri" />
                     {formErrors.name && <p className="text-red-500 text-xs mt-1.5 font-medium">{formErrors.name}</p>}
                   </div>
                   <div>
                     <label htmlFor="email" className="input-label">Email</label>
-                    <input type="email" id="email" name="email" className={`input-field ${formErrors.email ? 'border-red-500 focus:border-red-500' : ''}`} placeholder="jane@example.com" />
+                    <input type="email" id="email" name="email" className={`input-field ${formErrors.email ? 'border-red-500 focus:border-red-500' : ''}`} placeholder="ahmed@example.com" />
                     {formErrors.email && <p className="text-red-500 text-xs mt-1.5 font-medium">{formErrors.email}</p>}
                   </div>
                   <div>
