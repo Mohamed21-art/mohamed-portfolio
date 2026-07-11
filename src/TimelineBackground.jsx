@@ -40,7 +40,7 @@ export default function TimelineBackground({ isDarkMode }) {
       </div>
 
       {/* Timeline Wrapper (Contains both moving tracks and fixed playhead) */}
-      <div className="relative w-full h-[300px] flex overflow-visible">
+      <div className="relative w-full h-[300px] flex overflow-visible origin-bottom scale-[0.6] md:scale-100">
         
         {/* Moving Tracks Container */}
         <div 

@@ -411,11 +411,11 @@ function App() {
               <WordReveal text="for high-end visual results." delayOffset={500} />
             </div>
           </h1>
-          <p className="text-muted text-step-body reveal mb-10 max-w-3xl" style={{ transitionDelay: '750ms' }}>
+          <p className="text-muted text-step-body reveal mb-6 md:mb-10 max-w-3xl" style={{ transitionDelay: '750ms' }}>
             Video Editor & Visual Designer based in the UAE.<br />
             Delivering cinematic quality by merging human creativity with cutting-edge artificial intelligence tools.
           </p>
-          <div className="flex flex-wrap items-center gap-6 mt-4">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 md:gap-6 mt-0">
             <button
               onClick={() => scrollTo('contact')}
               className="reveal bounce btn-primary pulse-accent"
