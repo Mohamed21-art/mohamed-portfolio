@@ -356,6 +356,45 @@ function App() {
     }
   ];
 
+  const educationalProjects = [
+    {
+      id: 1,
+      title: "Introduction to Machine Learning",
+      category: "University Lecture",
+      thumbnail: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=2000&auto=format&fit=crop"
+    },
+    {
+      id: 2,
+      title: "The Future of AI in Design",
+      category: "School Presentation",
+      thumbnail: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?q=80&w=2000&auto=format&fit=crop"
+    },
+    {
+      id: 3,
+      title: "Prompt Engineering 101",
+      category: "Course Explainer",
+      thumbnail: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=2000&auto=format&fit=crop"
+    },
+    {
+      id: 4,
+      title: "Interactive Storytelling Workshop",
+      category: "Student Workshop",
+      thumbnail: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=2000&auto=format&fit=crop"
+    },
+    {
+      id: 5,
+      title: "Advanced Data Visualization",
+      category: "University Lecture",
+      thumbnail: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2000&auto=format&fit=crop"
+    },
+    {
+      id: 6,
+      title: "Creative Coding for Beginners",
+      category: "Course Explainer",
+      thumbnail: "https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=2000&auto=format&fit=crop"
+    }
+  ];
+
   return (
     <div className="min-h-screen text-text bg-bg antialiased selection:bg-accent/20 relative transition-colors duration-300">
       <CustomCursor />
@@ -379,6 +418,7 @@ function App() {
           <div className="hidden md:flex items-center gap-6 text-sm font-medium">
             <div className="flex items-center gap-8">
               <button onClick={() => scrollTo('work')} className="hover:text-accent transition-colors">Work</button>
+              <button onClick={() => scrollTo('education')} className="hover:text-accent transition-colors">Education</button>
               <button onClick={() => scrollTo('about')} className="hover:text-accent transition-colors">About</button>
               <button onClick={() => scrollTo('contact')} className="hover:text-accent transition-colors">Contact</button>
             </div>
@@ -399,6 +439,7 @@ function App() {
         {isMobileMenuOpen && (
           <div className="md:hidden absolute top-full left-0 right-0 bg-surface border-b border-border py-4 px-6 flex flex-col gap-4 shadow-sm">
             <button onClick={() => scrollTo('work')} className="text-left py-2 text-lg hover:text-accent transition-colors">Work</button>
+            <button onClick={() => scrollTo('education')} className="text-left py-2 text-lg hover:text-accent transition-colors">Education</button>
             <button onClick={() => scrollTo('about')} className="text-left py-2 text-lg hover:text-accent transition-colors">About</button>
             <button onClick={() => scrollTo('contact')} className="text-left py-2 text-lg hover:text-accent transition-colors">Contact</button>
             <div className="flex items-center justify-between py-2 mt-2 border-t border-border">
@@ -467,7 +508,7 @@ function App() {
         </section>
 
         {/* INSIGHTS */}
-        <section className="pt-4 md:pt-8 pb-16 md:pb-24">
+        <section className="pt-4 md:pt-8 pb-8 md:pb-12">
           <div className="max-w-7xl mx-auto px-4 md:px-8">
             {/* Header matches the screenshot structure */}
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 reveal">
@@ -633,9 +674,51 @@ function App() {
           </div>
         </section>
 
-        {/* 4. CAPABILITIES */}
-        <section className="reveal pt-12 md:pt-24 pb-0">
-          <p className="mono-label mb-8 px-6 lg:px-8 max-w-custom mx-auto">02 — Capabilities</p>
+        {/* 2. EDUCATIONAL CONTENT */}
+        <section id="education" className="section-padding pt-8 md:pt-16">
+          <p className="mono-label reveal mb-4">02 — Educational Content</p>
+          <p className="text-muted text-base max-w-2xl reveal mb-12">
+            AI-powered educational videos and presentations for schools, universities, and educators.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {educationalProjects.map((project, index) => (
+              <ScrollRevealItem
+                key={project.id}
+                index={index}
+                className="flex flex-col gap-3 group cursor-pointer"
+                dataCursor="play"
+              >
+                <div className="aspect-video relative w-full rounded-[24px] border border-border bg-surface overflow-hidden transition-all duration-300 group-hover:shadow-xl group-hover:shadow-black/5 group-hover:border-border/80">
+                  <img
+                    src={project.thumbnail}
+                    alt={project.title}
+                    className="w-full h-full object-cover transition-transform duration-[600ms] ease-out group-hover:scale-[1.03]"
+                    loading="lazy"
+                  />
+                  {/* Play Overlay */}
+                  <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <div className="w-14 h-14 rounded-full bg-black/50 backdrop-blur-md flex items-center justify-center text-white border border-white/20 transform scale-90 group-hover:scale-100 transition-transform duration-300">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    </div>
+                  </div>
+                </div>
+                {/* Info */}
+                <div className="px-1 flex flex-col gap-1">
+                  <h4 className="font-semibold text-lg">{project.title}</h4>
+                  <div className="flex flex-wrap items-center gap-2 text-muted text-sm">
+                    <span className="px-2.5 py-1 rounded-md bg-surface border border-border text-xs font-medium">{project.category}</span>
+                    <span className="hidden sm:inline">•</span>
+                    <span className="text-accent hover:underline">REPLACE — video link</span>
+                  </div>
+                </div>
+              </ScrollRevealItem>
+            ))}
+          </div>
+        </section>
+
+        {/* 3. CAPABILITIES */}
+        <section className="reveal pt-8 md:pt-16 pb-0">
+          <p className="mono-label mb-8 px-6 lg:px-8 max-w-custom mx-auto">03 — Capabilities</p>
           <div className="-mx-6 lg:-mx-8">
             <CoverflowCarousel />
           </div>
@@ -648,7 +731,7 @@ function App() {
 
           <div className="relative z-10 max-w-6xl mx-auto">
             <div className="reveal mb-8">
-              <p className="mono-label">03 — My Philosophy</p>
+              <p className="mono-label">04 — My Philosophy</p>
             </div>
             <div className="reveal stagger-1">
               <h2 className="text-2xl md:text-3xl lg:text-4xl font-serif leading-relaxed md:leading-relaxed text-text max-w-5xl">
@@ -660,7 +743,7 @@ function App() {
 
         {/* 6. CONTACT */}
         <section id="contact" className="section-padding relative">
-          <p className="mono-label reveal mb-12">04 — Let's Work</p>
+          <p className="mono-label reveal mb-12">05 — Let's Work</p>
           <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16">
             <div className="md:col-span-5 lg:col-span-6 reveal">
               <h2 className="text-step-hero leading-none mb-6">Have a project in mind?</h2>

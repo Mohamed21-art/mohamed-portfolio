@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { GraduationCap } from 'lucide-react';
 
 const capabilities = [
   {
@@ -21,10 +22,10 @@ const capabilities = [
     icon: <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="17" x2="22" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/></svg>
   },
   {
-    title: "Educational Video",
-    desc: "Translating complex concepts into engaging, visually stunning instructional content.",
+    title: "Educational Content",
+    desc: "AI-powered educational videos and presentations for schools, universities, and educators — content that makes complex ideas clear for students and teachers.",
     theme: "light",
-    icon: <svg width="56" height="56" viewBox="0 0 1080 1080" fill="none" stroke="currentColor" strokeWidth="75" strokeLinecap="round" strokeLinejoin="round"><path d="M683.3,419.97c14.56,8.43,19.53,27.06,11.11,41.62-2.67,4.61-6.5,8.44-11.11,11.11l-191.39,110.74c-14.52,8.4-33.09,3.44-41.49-11.08-2.69-4.65-4.1-9.92-4.08-15.29v-221.47c-.03-16.77,13.54-30.39,30.31-30.42,5.34,0,10.59,1.39,15.21,4.05l191.43,110.74Z"/><path d="M305.09,964.23h470.81"/><rect x="69.69" y="116.77" width="941.63" height="659.14" rx="2" ry="2"/></svg>
+    icon: <GraduationCap size={56} strokeWidth={1} />
   },
   {
     title: "Creative Direction",

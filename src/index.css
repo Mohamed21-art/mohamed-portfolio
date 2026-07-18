@@ -117,8 +117,8 @@
   }
 
   .section-padding {
-    padding-top: clamp(64px, 12vh, 140px);
-    padding-bottom: clamp(64px, 12vh, 140px);
+    padding-top: clamp(40px, 8vh, 100px);
+    padding-bottom: clamp(40px, 8vh, 100px);
   }
 }
 
