@@ -6,6 +6,8 @@ import CountUp from './CountUp';
 import CoverflowCarousel from './CoverflowCarousel';
 import CustomCursor from './CustomCursor';
 import heroBg from './assets/d59f90ac-4ec9-49ef-a568-b4420caa1e3f.jpeg';
+import snwakAd from './assets/sanowak2.png';
+import knozLogo from './assets/logo-00.png';
 
 const ScrollRevealItem = ({ children, index, className, dataCursor }) => {
   const prefersReducedMotion = typeof window !== 'undefined' ? window.matchMedia("(prefers-reduced-motion: reduce)").matches : false;
@@ -90,21 +92,21 @@ const Typewriter = ({ segments }) => {
 
 const WordReveal = ({ text, delayOffset = 0, highlightWordIndices = [], fillDelay }) => {
   const words = text.split(" ");
-  
+
   // Calculate default fill delay if none provided
-  const defaultFillDelay = delayOffset + (words.length - 1) * 60 + 600 + 400; 
+  const defaultFillDelay = delayOffset + (words.length - 1) * 60 + 600 + 400;
   const finalFillDelay = fillDelay || defaultFillDelay;
 
   return (
     <span className="inline-flex flex-wrap gap-x-[0.25em]">
       {words.map((word, i) => {
         const isHighlight = highlightWordIndices.includes(i);
-        
+
         return (
           <span
             key={i}
             className={`reveal inline-block ${isHighlight ? 'fill-up-text font-bold' : ''}`}
-            style={{ 
+            style={{
               transitionDelay: `${delayOffset + i * 60}ms`,
               ...(isHighlight ? { animationDelay: `${finalFillDelay}ms` } : {})
             }}
@@ -177,6 +179,7 @@ function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [cursorPos, setCursorPos] = useState({ x: -100, y: -100 });
   const [isHovering, setIsHovering] = useState(false);
+  const [activeVideo, setActiveVideo] = useState(null);
 
   const insightsRef = useRef(null);
   const { scrollYProgress: insightsProgress } = useScroll({
@@ -273,7 +276,7 @@ function App() {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    
+
     const form = e.target;
     const name = form.name.value.trim();
     const email = form.email.value.trim();
@@ -288,22 +291,22 @@ function App() {
       errors.email = "Please enter a valid email address.";
     }
     if (!message) errors.message = "Message is required.";
-    
+
     if (Object.keys(errors).length > 0) {
       setFormErrors(errors);
       return;
     }
-    
+
     setFormErrors({});
     setFormStatus('submitting');
-    
+
     try {
       const response = await fetch("https://formspree.io/f/mjgnbkbw", {
         method: "POST",
         headers: { "Content-Type": "application/json", "Accept": "application/json" },
         body: JSON.stringify({ name, email, projectType, message })
       });
-      
+
       if (response.ok) {
         setFormStatus('success');
         form.reset();
@@ -328,10 +331,12 @@ function App() {
   const projects = [
     {
       id: 1,
-      clientName: "ELEVATE APP",
-      title: "Launch Campaign",
-      type: "Motion & Editing",
-      thumbnail: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop"
+      clientName: "Knoz Store",
+      avatar: knozLogo,
+      title: "SANOWAK — Short-Form Product Ad",
+      type: "SANOWAK — Natural Siwak Toothbrush\nA 30-second product ad, crafted end to end.",
+      thumbnail: snwakAd,
+      link: "https://player.vimeo.com/video/1211359609?badge=0&autopause=0&player_id=0&app_id=58479"
     },
     {
       id: 2,
@@ -632,10 +637,17 @@ function App() {
                 className="flex flex-col gap-2 group cursor-pointer"
                 dataCursor="play"
               >
-                <div className="rounded-[32px] border border-border bg-surface overflow-hidden transition-all duration-300 group-hover:shadow-xl group-hover:shadow-black/5 group-hover:border-border/80">
+                <div 
+                  onClick={() => project.link ? setActiveVideo(project.link) : null}
+                  className="rounded-[32px] border border-border bg-surface overflow-hidden transition-all duration-300 group-hover:shadow-xl group-hover:shadow-black/5 group-hover:border-border/80"
+                >
                   {/* Header */}
                   <div className="p-3 flex items-center gap-2 border-b border-border">
-                    <div className="w-7 h-7 rounded-full bg-border overflow-hidden"></div>
+                    <div className="w-7 h-7 rounded-full bg-border overflow-hidden">
+                      {project.avatar ? (
+                        <img src={project.avatar} alt={project.clientName} className="w-full h-full object-cover" />
+                      ) : null}
+                    </div>
                     <span className="font-semibold text-xs">{project.clientName}</span>
                   </div>
                   {/* Image */}
@@ -650,7 +662,7 @@ function App() {
                   {/* Info Band */}
                   <div className="p-4 border-t border-border">
                     <h4 className="font-semibold text-sm mb-1">{project.title}</h4>
-                    <p className="text-muted text-xs leading-relaxed">{project.type}</p>
+                    <p className="text-muted text-xs leading-relaxed whitespace-pre-wrap">{project.type}</p>
                   </div>
                   {/* Actions */}
                   <div className="p-3 border-t border-border flex justify-between items-center text-text">
@@ -847,6 +859,31 @@ function App() {
           <p>Designed and built with intention.</p>
         </div>
       </footer>
+
+      {/* Video Modal */}
+      {activeVideo && (
+        <div className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center p-4 backdrop-blur-sm" onClick={() => setActiveVideo(null)}>
+          <button 
+            className="absolute top-6 right-6 text-white hover:text-accent transition-colors z-[110]"
+            onClick={() => setActiveVideo(null)}
+          >
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+          </button>
+          <div className="w-full max-w-[400px] relative rounded-2xl overflow-hidden bg-black shadow-2xl" onClick={(e) => e.stopPropagation()}>
+            <div style={{ padding: '177.78% 0 0 0', position: 'relative' }}>
+              <iframe 
+                src={`${activeVideo}&autoplay=1`} 
+                className="w-full h-full absolute top-0 left-0" 
+                frameBorder="0" 
+                allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
+                referrerPolicy="strict-origin-when-cross-origin"
+                title="Video Embed"
+                allowFullScreen>
+              </iframe>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
