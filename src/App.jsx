@@ -8,7 +8,7 @@ import CustomCursor from './CustomCursor';
 import heroBg from './assets/hero-bg.jpg';
 import knozLogo from './assets/logo-00.png';
 import logoKnoz from './assets/logo-knoz-copy.webp';
-import clockThumbnail from './assets/clock-thumbnail.png';
+import clockThumbnail from './assets/Clock-thumbnail.webp';
 import sanwakThumbnail from './assets/Sanwak-thumbnail-fixed.jpg';
 import ihramThumbnail from './assets/Ihram-thumbnail.webp';
 

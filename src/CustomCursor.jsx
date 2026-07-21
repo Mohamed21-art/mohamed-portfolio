@@ -35,10 +35,12 @@ export default function CustomCursor() {
     const onMouseMove = (e) => {
       if (!isVisible) setIsVisible(true);
 
-      // Instant follow via CSS variables
+      // Instant follow via CSS variables with requestAnimationFrame
       if (cursorRef.current) {
-        cursorRef.current.style.setProperty('--x', `${e.clientX}px`);
-        cursorRef.current.style.setProperty('--y', `${e.clientY}px`);
+        requestAnimationFrame(() => {
+          cursorRef.current.style.setProperty('--x', `${e.clientX}px`);
+          cursorRef.current.style.setProperty('--y', `${e.clientY}px`);
+        });
       }
 
       // Check hovering state
@@ -55,8 +57,10 @@ export default function CustomCursor() {
           const rect = btn.getBoundingClientRect();
           const x = e.clientX - rect.left;
           const y = e.clientY - rect.top;
-          btn.style.setProperty('--mx', `${x}px`);
-          btn.style.setProperty('--my', `${y}px`);
+          requestAnimationFrame(() => {
+            btn.style.setProperty('--mx', `${x}px`);
+            btn.style.setProperty('--my', `${y}px`);
+          });
         }
       }
     };
