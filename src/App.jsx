@@ -5,12 +5,16 @@ import TimelineBackground from './TimelineBackground';
 import CountUp from './CountUp';
 import CoverflowCarousel from './CoverflowCarousel';
 import CustomCursor from './CustomCursor';
-import heroBg from './assets/hero-bg.jpg';
+import heroVideo from './assets/website banner.webm';
 import knozLogo from './assets/logo-00.png';
 import logoKnoz from './assets/logo-knoz-copy.webp';
 import clockThumbnail from './assets/Clock-thumbnail.webp';
 import sanwakThumbnail from './assets/Sanwak-thumbnail-fixed.jpg';
 import ihramThumbnail from './assets/Ihram-thumbnail.webp';
+import quranSpeakerThumbnail from './assets/Magnetic Quran Speaker.webp';
+import quranMagnetsLogo from './assets/quran-magnets-logo.png';
+import itasbeehLogo from './assets/iTasbeeh.webp';
+import tasbeehThumbnail from './assets/ring-0.webp';
 
 const ScrollRevealItem = ({ children, index, className, dataCursor }) => {
   const prefersReducedMotion = typeof window !== 'undefined' ? window.matchMedia("(prefers-reduced-motion: reduce)").matches : false;
@@ -326,7 +330,7 @@ function App() {
   const projects = [
     {
       id: 1,
-      clientName: "Knoz",
+      clientName: "Knoz store",
       avatar: logoKnoz,
       title: "Ihram Capsule Garment — Product Ad",
       type: "Ihram — Capsule-Fastening Garment for Hajj & Umrah\nA product ad, crafted end to end.",
@@ -344,7 +348,7 @@ function App() {
     },
     {
       id: 3,
-      clientName: "Knoz",
+      clientName: "Knoz store",
       avatar: logoKnoz,
       title: "Smart Athan Clock — Product Ad",
       type: "Smart Athan Clock\nA product ad, crafted end to end.",
@@ -353,17 +357,21 @@ function App() {
     },
     {
       id: 4,
-      clientName: "AURA BEAUTY",
-      title: "Summer Collection",
-      type: "Motion & Editing",
-      thumbnail: "https://images.unsplash.com/photo-1616499370260-485b3e5ed653?q=75&w=800&fm=webp&auto=format&fit=crop"
+      clientName: "quranmagnets",
+      avatar: quranMagnetsLogo,
+      title: "Magnetic Quran Speaker",
+      type: "I handled the full production:\nlighting, indoor & outdoor shooting, edit,\nand professional AI-generated sound design.",
+      thumbnail: quranSpeakerThumbnail,
+      link: "https://player.vimeo.com/video/1211658771?badge=0&autopause=0&player_id=0&app_id=58479"
     },
     {
       id: 5,
-      clientName: "TECHNOCORE",
-      title: "Product Teaser",
-      type: "Motion & Editing",
-      thumbnail: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=75&w=800&h=1000&fm=webp"
+      clientName: "iTasbeeh",
+      avatar: itasbeehLogo,
+      title: "Smart Tasbih Ring",
+      type: "Smart Tasbih Ring — Digital Dhikr Counter\nAn unboxing product film, crafted end to end.",
+      thumbnail: tasbeehThumbnail,
+      link: "https://player.vimeo.com/video/1211664190?badge=0&autopause=0&player_id=0&app_id=58479"
     }
   ];
 
@@ -463,11 +471,13 @@ function App() {
 
       {/* Hero Background Cover */}
       <div className="absolute top-0 left-0 right-0 h-[80vh] md:h-[90vh] z-0 pointer-events-none overflow-hidden">
-        <img
-          src={heroBg}
-          alt="Hero Cover"
+        <video
+          src={heroVideo}
+          autoPlay
+          loop
+          muted
+          playsInline
           className="w-full h-full object-cover opacity-60 mix-blend-luminosity dark:opacity-40 blur-[3px]"
-          fetchpriority="high"
         />
         {/* Horizontal gradient (stronger on mobile, fading right on desktop) */}
         <div className="absolute inset-0 bg-gradient-to-r from-bg via-bg/95 md:via-bg/85 to-bg/70 md:to-bg/40"></div>
@@ -512,7 +522,7 @@ function App() {
             <button
               onClick={() => scrollTo('work')}
               className="reveal bounce px-8 py-3.5 rounded-xl bg-accent text-[#EFECE5] font-medium btn-solid-glow"
-              style={{ transitionDelay: '1050ms' }}
+              style={{ transitionDelay: '950ms' }}
             >
               View Selected Work →
             </button>
@@ -537,7 +547,7 @@ function App() {
               {/* Cell 1: Light */}
               <div className="bg-accent text-white rounded-tl-[2.5rem] rounded-br-[2.5rem] rounded-tr-xl rounded-bl-xl p-5 md:p-7 flex flex-row items-center md:items-start md:flex-col hover:-translate-y-1 hover:shadow-2xl hover:shadow-accent/30 transition-all duration-300 relative group overflow-hidden reveal">
                 {/* Icon */}
-                <div className="w-10 h-10 shrink-0 rounded-xl bg-white/20 text-white flex items-center justify-center mr-4 md:mr-0 md:mb-4 group-hover:scale-110 transition-transform">
+                <div className="w-10 h-10 shrink-0 rounded-xl bg-white/20 text-white flex items-center justify-center mr-4 md:mr-0 md:mb-4 group-hover:scale-110 transition-transform relative z-10">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="6" /><circle cx="12" cy="12" r="2" /></svg>
                 </div>
 
@@ -641,12 +651,12 @@ function App() {
                 progress={workProgress}
                 index={index}
                 count={projects.length}
-                className="flex flex-col gap-2 group cursor-pointer"
+                className="flex flex-col gap-2 group cursor-pointer h-full"
                 dataCursor="play"
               >
                 <div
                   onClick={() => project.link ? setActiveVideo(project.link) : null}
-                  className="rounded-[32px] border border-border bg-surface overflow-hidden transition-all duration-300 group-hover:shadow-xl group-hover:shadow-black/5 group-hover:border-border/80"
+                  className="rounded-[32px] border border-border bg-surface overflow-hidden transition-all duration-300 group-hover:shadow-xl group-hover:shadow-black/5 group-hover:border-border/80 flex flex-col h-full"
                 >
                   {/* Header */}
                   <div className="p-3 flex items-center gap-2 border-b border-border">
@@ -667,7 +677,7 @@ function App() {
                     />
                   </div>
                   {/* Info Band */}
-                  <div className="p-4 border-t border-border">
+                  <div className="p-4 border-t border-border flex-grow">
                     <h4 className="font-semibold text-sm mb-1">{project.title}</h4>
                     <p className="text-muted text-xs leading-relaxed whitespace-pre-wrap">{project.type}</p>
                   </div>
@@ -779,9 +789,9 @@ function App() {
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform"><rect width="20" height="20" x="2" y="2" rx="5" ry="5" /><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" /><line x1="17.5" x2="17.51" y1="6.5" y2="6.5" /></svg>
                     <span>Instagram</span>
                   </a>
-                  <a href="#" className="flex items-center gap-2 hover:text-accent transition-colors group cursor-pointer">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform"><line x1="8" y1="20" x2="12" y2="11" /><path d="M10.7 14c.437 1.263 1.43 2 2.55 2c2.071 0 3.75 -1.554 3.75 -4a5 5 0 1 0 -9.7 1.7" /><circle cx="12" cy="12" r="9" /></svg>
-                    <span>Pinterest</span>
+                  <a href="https://www.linkedin.com/in/muhmd-sayed/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-accent transition-colors group cursor-pointer">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" /><rect x="2" y="9" width="4" height="12" /><circle cx="4" cy="4" r="2" /></svg>
+                    <span>LinkedIn</span>
                   </a>
                   <a href="#" className="flex items-center gap-2 hover:text-accent transition-colors group cursor-pointer">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17" /><path d="m10 15 5-3-5-3z" fill="currentColor" /></svg>
