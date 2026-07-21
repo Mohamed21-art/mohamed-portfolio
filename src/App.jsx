@@ -13,7 +13,7 @@ import sanwakThumbnail from './assets/Sanwak-thumbnail-fixed.jpg';
 import ihramThumbnail from './assets/Ihram-thumbnail.webp';
 import quranSpeakerThumbnail from './assets/Magnetic Quran Speaker.webp';
 import quranMagnetsLogo from './assets/quran-magnets-logo.png';
-import itasbeehLogo from './assets/iTasbeeh.webp';
+import weislamicLogo from './assets/Weislamic.webp';
 import tasbeehThumbnail from './assets/ring-0.webp';
 
 const ScrollRevealItem = ({ children, index, className, dataCursor }) => {
@@ -366,8 +366,8 @@ function App() {
     },
     {
       id: 5,
-      clientName: "iTasbeeh",
-      avatar: itasbeehLogo,
+      clientName: "Weslamic",
+      avatar: weislamicLogo,
       title: "Smart Tasbih Ring",
       type: "Smart Tasbih Ring — Digital Dhikr Counter\nAn unboxing product film, crafted end to end.",
       thumbnail: tasbeehThumbnail,
