@@ -1,13 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll } from 'framer-motion';
 import './index.css';
 import TimelineBackground from './TimelineBackground';
 import CountUp from './CountUp';
 import CoverflowCarousel from './CoverflowCarousel';
 import CustomCursor from './CustomCursor';
-import heroBg from './assets/d59f90ac-4ec9-49ef-a568-b4420caa1e3f.jpeg';
-import snwakAd from './assets/sanowak2.png';
+import heroBg from './assets/hero-bg.jpg';
 import knozLogo from './assets/logo-00.png';
+import logoKnoz from './assets/logo-knoz-copy.webp';
+import clockThumbnail from './assets/clock-thumbnail.png';
+import sanwakThumbnail from './assets/Sanwak-thumbnail-fixed.jpg';
+import ihramThumbnail from './assets/Ihram-thumbnail.webp';
 
 const ScrollRevealItem = ({ children, index, className, dataCursor }) => {
   const prefersReducedMotion = typeof window !== 'undefined' ? window.matchMedia("(prefers-reduced-motion: reduce)").matches : false;
@@ -177,15 +180,8 @@ function App() {
   const [formStatus, setFormStatus] = useState('idle'); // idle, submitting, success, error
   const [formErrors, setFormErrors] = useState({});
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [cursorPos, setCursorPos] = useState({ x: -100, y: -100 });
-  const [isHovering, setIsHovering] = useState(false);
   const [activeVideo, setActiveVideo] = useState(null);
 
-  const insightsRef = useRef(null);
-  const { scrollYProgress: insightsProgress } = useScroll({
-    target: insightsRef,
-    offset: ["start 90%", "end 80%"]
-  });
 
   const workRef = useRef(null);
   const { scrollYProgress: workProgress } = useScroll({
@@ -307,12 +303,11 @@ function App() {
         body: JSON.stringify({ name, email, projectType, message })
       });
 
-      if (response.ok) {
-        setFormStatus('success');
-        form.reset();
-      } else {
-        setFormStatus('error');
+      if (!response.ok) {
+        throw new Error('Failed');
       }
+      setFormStatus('success');
+      form.reset();
     } catch (error) {
       setFormStatus('error');
     }
@@ -331,33 +326,44 @@ function App() {
   const projects = [
     {
       id: 1,
-      clientName: "Knoz Store",
-      avatar: knozLogo,
-      title: "SANOWAK — Short-Form Product Ad",
-      type: "SANOWAK — Natural Siwak Toothbrush\nA 30-second product ad, crafted end to end.",
-      thumbnail: snwakAd,
-      link: "https://player.vimeo.com/video/1211359609?badge=0&autopause=0&player_id=0&app_id=58479"
+      clientName: "Knoz",
+      avatar: logoKnoz,
+      title: "Ihram Capsule Garment — Product Ad",
+      type: "Ihram — Capsule-Fastening Garment for Hajj & Umrah\nA product ad, crafted end to end.",
+      thumbnail: ihramThumbnail,
+      link: "https://player.vimeo.com/video/1211631629?badge=0&autopause=0&player_id=0&app_id=58479"
     },
     {
       id: 2,
-      clientName: "NEXUS STUDIOS",
-      title: "Brand Anthem",
-      type: "Motion & Editing",
-      thumbnail: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=2000&auto=format&fit=crop"
+      clientName: "Sanowak",
+      avatar: knozLogo,
+      title: "SANOWAK — Short-Form Product Ad",
+      type: "SANOWAK — Natural Siwak Toothbrush\nA 20-second product ad, crafted end to end.",
+      thumbnail: sanwakThumbnail,
+      link: "https://player.vimeo.com/video/1211359609?badge=0&autopause=0&player_id=0&app_id=58479"
     },
     {
       id: 3,
-      clientName: "AURA BEAUTY",
-      title: "Summer Collection",
-      type: "Motion & Editing",
-      thumbnail: "https://images.unsplash.com/photo-1616499370260-485b3e5ed653?q=80&w=2000&auto=format&fit=crop"
+      clientName: "Knoz",
+      avatar: logoKnoz,
+      title: "Smart Athan Clock — Product Ad",
+      type: "Smart Athan Clock\nA product ad, crafted end to end.",
+      thumbnail: clockThumbnail,
+      link: "https://player.vimeo.com/video/1211622815?badge=0&autopause=0&player_id=0&app_id=58479"
     },
     {
       id: 4,
+      clientName: "AURA BEAUTY",
+      title: "Summer Collection",
+      type: "Motion & Editing",
+      thumbnail: "https://images.unsplash.com/photo-1616499370260-485b3e5ed653?q=75&w=800&fm=webp&auto=format&fit=crop"
+    },
+    {
+      id: 5,
       clientName: "TECHNOCORE",
       title: "Product Teaser",
       type: "Motion & Editing",
-      thumbnail: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=800&h=1000"
+      thumbnail: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=75&w=800&h=1000&fm=webp"
     }
   ];
 
@@ -366,37 +372,37 @@ function App() {
       id: 1,
       title: "Introduction to Machine Learning",
       category: "University Lecture",
-      thumbnail: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=2000&auto=format&fit=crop"
+      thumbnail: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=75&w=800&fm=webp&auto=format&fit=crop"
     },
     {
       id: 2,
       title: "The Future of AI in Design",
       category: "School Presentation",
-      thumbnail: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?q=80&w=2000&auto=format&fit=crop"
+      thumbnail: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?q=75&w=800&fm=webp&auto=format&fit=crop"
     },
     {
       id: 3,
       title: "Prompt Engineering 101",
       category: "Course Explainer",
-      thumbnail: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=2000&auto=format&fit=crop"
+      thumbnail: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=75&w=800&fm=webp&auto=format&fit=crop"
     },
     {
       id: 4,
       title: "Interactive Storytelling Workshop",
       category: "Student Workshop",
-      thumbnail: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=2000&auto=format&fit=crop"
+      thumbnail: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=75&w=800&fm=webp&auto=format&fit=crop"
     },
     {
       id: 5,
       title: "Advanced Data Visualization",
       category: "University Lecture",
-      thumbnail: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2000&auto=format&fit=crop"
+      thumbnail: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=75&w=800&fm=webp&auto=format&fit=crop"
     },
     {
       id: 6,
       title: "Creative Coding for Beginners",
       category: "Course Explainer",
-      thumbnail: "https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=2000&auto=format&fit=crop"
+      thumbnail: "https://images.unsplash.com/photo-1509062522246-3755977927d7?q=75&w=800&fm=webp&auto=format&fit=crop"
     }
   ];
 
@@ -461,6 +467,7 @@ function App() {
           src={heroBg}
           alt="Hero Cover"
           className="w-full h-full object-cover opacity-60 mix-blend-luminosity dark:opacity-40 blur-[3px]"
+          fetchpriority="high"
         />
         {/* Horizontal gradient (stronger on mobile, fading right on desktop) */}
         <div className="absolute inset-0 bg-gradient-to-r from-bg via-bg/95 md:via-bg/85 to-bg/70 md:to-bg/40"></div>
@@ -637,7 +644,7 @@ function App() {
                 className="flex flex-col gap-2 group cursor-pointer"
                 dataCursor="play"
               >
-                <div 
+                <div
                   onClick={() => project.link ? setActiveVideo(project.link) : null}
                   className="rounded-[32px] border border-border bg-surface overflow-hidden transition-all duration-300 group-hover:shadow-xl group-hover:shadow-black/5 group-hover:border-border/80"
                 >
@@ -645,7 +652,7 @@ function App() {
                   <div className="p-3 flex items-center gap-2 border-b border-border">
                     <div className="w-7 h-7 rounded-full bg-border overflow-hidden">
                       {project.avatar ? (
-                        <img src={project.avatar} alt={project.clientName} className="w-full h-full object-cover" />
+                        <img src={project.avatar} alt={project.clientName} loading="lazy" className="w-full h-full object-cover" />
                       ) : null}
                     </div>
                     <span className="font-semibold text-xs">{project.clientName}</span>
@@ -863,7 +870,7 @@ function App() {
       {/* Video Modal */}
       {activeVideo && (
         <div className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center p-4 backdrop-blur-sm" onClick={() => setActiveVideo(null)}>
-          <button 
+          <button
             className="absolute top-6 right-6 text-white hover:text-accent transition-colors z-[110]"
             onClick={() => setActiveVideo(null)}
           >
@@ -871,11 +878,11 @@ function App() {
           </button>
           <div className="w-full max-w-[400px] relative rounded-2xl overflow-hidden bg-black shadow-2xl" onClick={(e) => e.stopPropagation()}>
             <div style={{ padding: '177.78% 0 0 0', position: 'relative' }}>
-              <iframe 
-                src={`${activeVideo}&autoplay=1`} 
-                className="w-full h-full absolute top-0 left-0" 
-                frameBorder="0" 
-                allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
+              <iframe
+                src={`${activeVideo}&autoplay=1`}
+                className="w-full h-full absolute top-0 left-0"
+                frameBorder="0"
+                allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
                 referrerPolicy="strict-origin-when-cross-origin"
                 title="Video Embed"
                 allowFullScreen>

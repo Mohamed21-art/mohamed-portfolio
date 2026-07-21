@@ -103,8 +103,6 @@ export default function CoverflowCarousel() {
             const diff = index - activeIndex;
             const isCenter = diff === 0;
             const isLeft = diff < 0;
-            const isRight = diff > 0;
-            
             // Only render cards close to center for performance
             if (Math.abs(diff) > 2) return null;
 

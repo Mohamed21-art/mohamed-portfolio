@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { Canvas, useThree } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera, Environment, Sphere, Box, Plane } from '@react-three/drei';
-import { EffectComposer, DepthOfField, Bloom, Vignette } from '@react-three/postprocessing';
+import { EffectComposer, DepthOfField, Vignette } from '@react-three/postprocessing';
 import { useStore } from '../../store/useStore';
 import * as THREE from 'three';
 
