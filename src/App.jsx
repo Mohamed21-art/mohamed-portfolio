@@ -5,7 +5,7 @@ import TimelineBackground from './TimelineBackground';
 import CountUp from './CountUp';
 import CoverflowCarousel from './CoverflowCarousel';
 import CustomCursor from './CustomCursor';
-import heroVideo from './assets/website banner.webm';
+import heroPoster from './assets/hero-bg.jpg';
 import knozLogo from './assets/logo-00.png';
 import logoKnoz from './assets/logo-knoz-copy.webp';
 import clockThumbnail from './assets/Clock-thumbnail.webp';
@@ -15,12 +15,20 @@ import quranSpeakerThumbnail from './assets/Magnetic Quran Speaker.webp';
 import quranMagnetsLogo from './assets/quran-magnets-logo.png';
 import weislamicLogo from './assets/Weislamic.webp';
 import tasbeehThumbnail from './assets/ring-0.webp';
+import profile01 from './assets/Profile-01.webp';
+import profile02 from './assets/Profile-02.webp';
+import profile03 from './assets/Profile-03.webp';
+import einThumbnail from './assets/ein.webp';
+import bahthDark from './assets/Bahth-dark.webp';
+import bahthLight from './assets/Bahth-ligh.webp';
+import brDark from './assets/BR-Dark.webp';
+import brLight from './assets/BR-ligh.webp';
 
-const ScrollRevealItem = ({ children, index, className, dataCursor }) => {
+const ScrollRevealItem = ({ children, index, className, dataCursor, onClick }) => {
   const prefersReducedMotion = typeof window !== 'undefined' ? window.matchMedia("(prefers-reduced-motion: reduce)").matches : false;
 
   if (prefersReducedMotion) {
-    return <div className={className} data-cursor={dataCursor}>{children}</div>;
+    return <div className={className} data-cursor={dataCursor} onClick={onClick}>{children}</div>;
   }
 
   // Adjust delay on desktop for a staggered effect, but keep it snappy
@@ -32,6 +40,7 @@ const ScrollRevealItem = ({ children, index, className, dataCursor }) => {
       transition={{ duration: 0.5, delay: Math.min(index * 0.1, 0.3), ease: "easeOut" }}
       className={className}
       data-cursor={dataCursor}
+      onClick={onClick}
     >
       {children}
     </motion.div>
@@ -126,56 +135,96 @@ const WordReveal = ({ text, delayOffset = 0, highlightWordIndices = [], fillDela
   );
 };
 
-const ThemeToggle = ({ isDarkMode, onToggle, id = "moon-mask" }) => {
+const ThemeToggle = ({ themeMode, onCycle, id = "theme-toggle" }) => {
+  // Icons: sun (light), moon (dark), monitor (system)
   return (
     <button
-      onClick={onToggle}
-      aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
+      onClick={onCycle}
+      aria-label={`Theme: ${themeMode}. Click to switch.`}
       role="button"
       className="relative w-9 h-9 flex items-center justify-center rounded-full border border-border bg-surface transition-all duration-300 hover:border-accent hover:shadow-[0_0_10px_rgba(217,119,87,0.3)] focus:outline-none focus:ring-2 focus:ring-accent/50"
     >
+      {/* Light mode icon (sun) */}
       <svg
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        style={{ transform: isDarkMode ? 'rotate(40deg)' : 'rotate(0deg)', transition: 'transform 0.5s cubic-bezier(0.4, 0.0, 0.2, 1)' }}
-        className="text-text"
+        width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+        className="text-text absolute transition-all duration-300"
+        style={{ opacity: themeMode === 'light' ? 1 : 0, transform: themeMode === 'light' ? 'scale(1) rotate(0deg)' : 'scale(0.5) rotate(-90deg)' }}
       >
-        <mask id={id}>
-          <rect x="0" y="0" width="24" height="24" fill="white" />
-          <circle
-            cx={isDarkMode ? "12" : "30"}
-            cy={isDarkMode ? "4" : "12"}
-            r="9"
-            fill="black"
-            style={{ transition: 'cx 0.5s cubic-bezier(0.4, 0.0, 0.2, 1), cy 0.5s cubic-bezier(0.4, 0.0, 0.2, 1)' }}
-          />
-        </mask>
-        <circle
-          cx="12"
-          cy="12"
-          fill={isDarkMode ? "currentColor" : "none"}
-          r={isDarkMode ? "9" : "5"}
-          mask={`url(#${id})`}
-          style={{ transition: 'r 0.5s cubic-bezier(0.4, 0.0, 0.2, 1), fill 0.5s ease' }}
-        />
-        <g style={{ opacity: isDarkMode ? 0 : 1, transition: 'opacity 0.3s ease' }}>
-          <line x1="12" y1="1" x2="12" y2="3" />
-          <line x1="12" y1="21" x2="12" y2="23" />
-          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-          <line x1="1" y1="12" x2="3" y2="12" />
-          <line x1="21" y1="12" x2="23" y2="12" />
-          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
-        </g>
+        <circle cx="12" cy="12" r="5" />
+        <line x1="12" y1="1" x2="12" y2="3" /><line x1="12" y1="21" x2="12" y2="23" />
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" /><line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+        <line x1="1" y1="12" x2="3" y2="12" /><line x1="21" y1="12" x2="23" y2="12" />
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" /><line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+      </svg>
+      {/* Dark mode icon (moon) */}
+      <svg
+        width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+        className="text-text absolute transition-all duration-300"
+        style={{ opacity: themeMode === 'dark' ? 1 : 0, transform: themeMode === 'dark' ? 'scale(1) rotate(0deg)' : 'scale(0.5) rotate(90deg)' }}
+      >
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+      </svg>
+      {/* System mode icon (monitor) */}
+      <svg
+        width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+        className="text-text absolute transition-all duration-300"
+        style={{ opacity: themeMode === 'system' ? 1 : 0, transform: themeMode === 'system' ? 'scale(1) rotate(0deg)' : 'scale(0.5) rotate(90deg)' }}
+      >
+        <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+        <line x1="8" y1="21" x2="16" y2="21" />
+        <line x1="12" y1="17" x2="12" y2="21" />
       </svg>
     </button>
+  );
+};
+
+const placeholderLogos = [
+  <div key="bahth" className="flex items-center justify-center">
+    {/* In Light Mode, use the light-themed logo */}
+    <img src={bahthLight} alt="Bahth" className="block dark:hidden h-14 md:h-16 w-auto object-contain transition-all duration-300" />
+    {/* In Dark Mode, use the dark-themed logo */}
+    <img src={bahthDark} alt="Bahth" className="hidden dark:block h-14 md:h-16 w-auto object-contain transition-all duration-300" />
+  </div>,
+  <div key="br" className="flex items-center justify-center">
+    {/* In Light Mode, use the light-themed logo */}
+    <img src={brLight} alt="BR" className="block dark:hidden h-14 md:h-16 w-auto object-contain transition-all duration-300" />
+    {/* In Dark Mode, use the dark-themed logo */}
+    <img src={brDark} alt="BR" className="hidden dark:block h-14 md:h-16 w-auto object-contain transition-all duration-300" />
+  </div>,
+  <svg key="link" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>,
+  <svg key="star" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>,
+  <svg key="wave" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>,
+  <svg key="layout" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>,
+  <svg key="shield" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>,
+  <svg key="layers" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+];
+
+const TrustedMarquee = () => {
+  return (
+    <section className="py-10 md:py-12 overflow-hidden">
+      <div className="max-w-[1920px] mx-auto px-6 lg:px-8 flex flex-col md:flex-row items-center gap-8 md:gap-16">
+        {/* Static Label */}
+        <p className="mono-label !mb-0 whitespace-nowrap text-muted shrink-0 text-sm tracking-widest text-center md:text-left flex items-center h-16">TRUSTED BY</p>
+        
+        {/* Marquee Container */}
+        <div 
+          className="relative w-full overflow-hidden flex items-center pause-on-hover" 
+          style={{ maskImage: 'linear-gradient(to right, transparent, black 25%, black 75%, transparent)', WebkitMaskImage: 'linear-gradient(to right, transparent, black 25%, black 75%, transparent)' }}
+        >
+          {/* We duplicate the content to create an infinite loop */}
+          <div className="flex items-center w-max motion-safe:animate-marquee-slow">
+            {[...placeholderLogos, ...placeholderLogos].map((logo, index) => (
+              <div 
+                key={index} 
+                className="mx-8 md:mx-16 text-muted opacity-60 hover:text-accent hover:opacity-100 transition-all duration-300 transform hover:scale-110 flex-shrink-0 cursor-default flex items-center justify-center h-16"
+              >
+                {logo}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
   );
 };
 
@@ -185,7 +234,9 @@ function App() {
   const [formErrors, setFormErrors] = useState({});
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeVideo, setActiveVideo] = useState(null);
-
+  const [showFloatingContact, setShowFloatingContact] = useState(false);
+  const heroRef = useRef(null);
+  const contactRef = useRef(null);
 
   const workRef = useRef(null);
   const { scrollYProgress: workProgress } = useScroll({
@@ -193,26 +244,47 @@ function App() {
     offset: ["start 90%", "end 80%"]
   });
 
-  // Theme state
-  const [isDarkMode, setIsDarkMode] = useState(() => {
+  // Theme state: 'light' | 'dark' | 'system'
+  const [themeMode, setThemeMode] = useState(() => {
     if (typeof window !== 'undefined') {
-      return localStorage.getItem('theme') === 'dark' ||
-        (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      return localStorage.getItem('theme') || 'system';
     }
-    return false;
+    return 'system';
   });
+
+  const isDarkMode = themeMode === 'dark' || (themeMode === 'system' && typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+
+  const cycleTheme = () => {
+    setThemeMode(prev => {
+      if (prev === 'light') return 'dark';
+      if (prev === 'dark') return 'system';
+      return 'light';
+    });
+  };
 
   const observerRef = useRef(null);
 
   useEffect(() => {
-    if (isDarkMode) {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-    }
-  }, [isDarkMode]);
+    const applyTheme = () => {
+      const shouldBeDark = themeMode === 'dark' || (themeMode === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      if (shouldBeDark) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    };
+
+    applyTheme();
+    localStorage.setItem('theme', themeMode);
+
+    // Listen for OS theme changes when in system mode
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleChange = () => {
+      if (themeMode === 'system') applyTheme();
+    };
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, [themeMode]);
 
   // Custom Cursor
   useEffect(() => {
@@ -263,7 +335,25 @@ function App() {
       observerRef.current.observe(el);
     });
 
-    return () => observerRef.current?.disconnect();
+    // Floating Contact Observer
+    let heroVisible = true;
+    let contactVisible = false;
+
+    const floatingObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.target === heroRef.current) heroVisible = entry.isIntersecting;
+        if (entry.target === contactRef.current) contactVisible = entry.isIntersecting;
+      });
+      setShowFloatingContact(!heroVisible && !contactVisible);
+    }, { threshold: 0 });
+
+    if (heroRef.current) floatingObserver.observe(heroRef.current);
+    if (contactRef.current) floatingObserver.observe(contactRef.current);
+
+    return () => {
+      observerRef.current?.disconnect();
+      floatingObserver.disconnect();
+    };
   }, []);
 
   const scrollTo = (id) => {
@@ -378,9 +468,10 @@ function App() {
   const educationalProjects = [
     {
       id: 1,
-      title: "Introduction to Machine Learning",
-      category: "University Lecture",
-      thumbnail: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=75&w=800&fm=webp&auto=format&fit=crop"
+      title: "Arabic Letters for Kids — Learning \"Ein\"",
+      category: "Story-Based Learning",
+      thumbnail: einThumbnail,
+      link: "https://player.vimeo.com/video/1212043007?badge=0&autopause=0&player_id=0&app_id=58479"
     },
     {
       id: 2,
@@ -442,7 +533,7 @@ function App() {
               <button onClick={() => scrollTo('contact')} className="hover:text-accent transition-colors">Contact</button>
             </div>
             <div className="w-px h-4 bg-border/60 mx-2"></div>
-            <ThemeToggle isDarkMode={isDarkMode} onToggle={() => setIsDarkMode(!isDarkMode)} id="desktop-theme" />
+            <ThemeToggle themeMode={themeMode} onCycle={cycleTheme} id="desktop-theme" />
           </div>
 
           {/* Mobile Nav Toggle */}
@@ -463,7 +554,7 @@ function App() {
             <button onClick={() => scrollTo('contact')} className="text-left py-2 text-lg hover:text-accent transition-colors">Contact</button>
             <div className="flex items-center justify-between py-2 mt-2 border-t border-border">
               <span className="text-lg">Theme</span>
-              <ThemeToggle isDarkMode={isDarkMode} onToggle={() => setIsDarkMode(!isDarkMode)} id="mobile-theme" />
+              <ThemeToggle themeMode={themeMode} onCycle={cycleTheme} id="mobile-theme" />
             </div>
           </div>
         )}
@@ -472,13 +563,16 @@ function App() {
       {/* Hero Background Cover */}
       <div className="absolute top-0 left-0 right-0 h-[80vh] md:h-[90vh] z-0 pointer-events-none overflow-hidden">
         <video
-          src={heroVideo}
+          poster={heroPoster}
           autoPlay
           loop
           muted
           playsInline
+          preload="none"
           className="w-full h-full object-cover opacity-60 mix-blend-luminosity dark:opacity-40 blur-[3px]"
-        />
+        >
+          <source src="/website-banner.webm" type="video/webm" />
+        </video>
         {/* Horizontal gradient (stronger on mobile, fading right on desktop) */}
         <div className="absolute inset-0 bg-gradient-to-r from-bg via-bg/95 md:via-bg/85 to-bg/70 md:to-bg/40"></div>
         {/* Vertical gradient to fade into background at the bottom */}
@@ -490,7 +584,7 @@ function App() {
       <main className="max-w-custom mx-auto px-6 lg:px-8 pt-32 md:pt-48 relative overflow-hidden md:overflow-visible">
 
         {/* 2. HERO */}
-        <section className="min-h-[40vh] md:min-h-[50vh] flex flex-col justify-center section-padding pt-0 relative z-10">
+        <section ref={heroRef} className="min-h-[40vh] md:min-h-[50vh] flex flex-col justify-center section-padding pt-0 relative z-10">
           <div className="flex items-center gap-2 mb-6 reveal">
             <div className="w-2.5 h-2.5 rounded-full bg-accent rec-pulse shadow-[0_0_8px_rgba(217,119,87,0.8)]"></div>
             <span className="mono-label !mb-0 tracking-[0.1em] text-[11px] font-bold">REC</span>
@@ -643,7 +737,12 @@ function App() {
 
         {/* 3. SELECTED WORK */}
         <section id="work" className="section-padding">
-          <p className="mono-label reveal mb-12">01 — Selected Work</p>
+          <div className="flex items-center gap-6 mb-12 reveal w-full">
+            <h2 className="mono-label !mb-0 text-base md:text-lg font-bold whitespace-nowrap">
+              <span className="text-accent">01</span> <span className="opacity-50 font-normal">—</span> SELECTED WORK
+            </h2>
+            <div className="h-px bg-border flex-grow"></div>
+          </div>
           <div ref={workRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {projects.map((project, index) => (
               <ScrollRevealItem
@@ -655,7 +754,7 @@ function App() {
                 dataCursor="play"
               >
                 <div
-                  onClick={() => project.link ? setActiveVideo(project.link) : null}
+                  onClick={() => project.link ? setActiveVideo({ url: project.link, isPortrait: true }) : null}
                   className="rounded-[32px] border border-border bg-surface overflow-hidden transition-all duration-300 group-hover:shadow-xl group-hover:shadow-black/5 group-hover:border-border/80 flex flex-col h-full"
                 >
                   {/* Header */}
@@ -702,10 +801,14 @@ function App() {
             ))}
           </div>
         </section>
-
         {/* 2. EDUCATIONAL CONTENT */}
         <section id="education" className="section-padding pt-8 md:pt-16">
-          <p className="mono-label reveal mb-4">02 — Educational Content</p>
+          <div className="flex items-center gap-6 mb-8 reveal w-full">
+            <h2 className="mono-label !mb-0 text-base md:text-lg font-bold whitespace-nowrap">
+              <span className="text-accent">02</span> <span className="opacity-50 font-normal">—</span> EDUCATIONAL CONTENT
+            </h2>
+            <div className="h-px bg-border flex-grow"></div>
+          </div>
           <p className="text-muted text-base max-w-2xl reveal mb-12">
             AI-powered educational videos and presentations for schools, universities, and educators.
           </p>
@@ -716,6 +819,7 @@ function App() {
                 index={index}
                 className="flex flex-col gap-3 group cursor-pointer"
                 dataCursor="play"
+                onClick={() => project.link ? setActiveVideo({ url: project.link, isPortrait: false }) : null}
               >
                 <div className="aspect-video relative w-full rounded-[24px] border border-border bg-surface overflow-hidden transition-all duration-300 group-hover:shadow-xl group-hover:shadow-black/5 group-hover:border-border/80">
                   <img
@@ -737,7 +841,7 @@ function App() {
                   <div className="flex flex-wrap items-center gap-2 text-muted text-sm">
                     <span className="px-2.5 py-1 rounded-md bg-surface border border-border text-xs font-medium">{project.category}</span>
                     <span className="hidden sm:inline">•</span>
-                    <span className="text-accent hover:underline">REPLACE — video link</span>
+                    <span className="text-accent hover:underline">Click here to watch</span>
                   </div>
                 </div>
               </ScrollRevealItem>
@@ -745,9 +849,16 @@ function App() {
           </div>
         </section>
 
+        <TrustedMarquee />
+
         {/* 3. CAPABILITIES */}
         <section className="reveal pt-8 md:pt-16 pb-0">
-          <p className="mono-label mb-8 px-6 lg:px-8 max-w-custom mx-auto">03 — Capabilities</p>
+          <div className="flex items-center gap-6 mb-8 px-6 lg:px-8 max-w-custom mx-auto w-full">
+            <h2 className="mono-label !mb-0 text-base md:text-lg font-bold whitespace-nowrap">
+              <span className="text-accent">03</span> <span className="opacity-50 font-normal">—</span> CAPABILITIES
+            </h2>
+            <div className="h-px bg-border flex-grow"></div>
+          </div>
           <div className="-mx-6 lg:-mx-8">
             <CoverflowCarousel />
           </div>
@@ -759,8 +870,11 @@ function App() {
           <div className="absolute inset-0 bg-grid-pattern opacity-40 pointer-events-none z-0"></div>
 
           <div className="relative z-10 max-w-6xl mx-auto">
-            <div className="reveal mb-8">
-              <p className="mono-label">04 — My Philosophy</p>
+            <div className="reveal mb-8 flex items-center gap-6 w-full">
+              <h2 className="mono-label !mb-0 text-base md:text-lg font-bold whitespace-nowrap">
+                <span className="text-accent">04</span> <span className="opacity-50 font-normal">—</span> MY PHILOSOPHY
+              </h2>
+              <div className="h-px bg-border flex-grow"></div>
             </div>
             <div className="reveal stagger-1">
               <h2 className="text-2xl md:text-3xl lg:text-4xl font-serif leading-relaxed md:leading-relaxed text-text max-w-5xl">
@@ -770,9 +884,77 @@ function App() {
           </div>
         </section>
 
+        {/* TESTIMONIALS */}
+        <section className="section-padding">
+          <div className="flex items-center gap-6 mb-12 reveal w-full">
+            <h2 className="mono-label !mb-0 text-base md:text-lg font-bold whitespace-nowrap">
+              <span className="text-accent">05</span> <span className="opacity-50 font-normal">—</span> CLIENT FEEDBACK
+            </h2>
+            <div className="h-px bg-border flex-grow"></div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              {
+                quote: "Mohamed has an exceptional eye for video and visual storytelling. Every deliverable was polished, considered, and exactly what we needed.",
+                name: "AHMED AL MANSOURI",
+                role: "Marketing Director, Knoz Store",
+                avatar: profile01
+              },
+              {
+                quote: "Working with Mohamed felt effortless. He grasped the brief immediately and delivered content that performed from the very first post.",
+                name: "KHALID AL HASHIMI",
+                role: "Founder, Weslamic",
+                avatar: profile02
+              },
+              {
+                quote: "The content Mohamed created became core to our brand — campaigns, product launches, educational videos. Truly exceptional work.",
+                name: "OMAR AL SUWAIDI",
+                role: "CEO, Quran Magnets",
+                avatar: profile03
+              }
+            ].map((testimonial, i) => (
+              <div
+                key={i}
+                className="reveal bg-surface border border-border rounded-2xl p-6 md:p-8 flex flex-col justify-between hover:-translate-y-1 hover:shadow-xl transition-all duration-300"
+                style={{ transitionDelay: `${i * 150}ms` }}
+              >
+                {/* Quotation mark */}
+                <div>
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor" className="text-accent opacity-20 mb-4">
+                    <path d="M4.583 17.321C3.553 16.227 3 15 3 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311C9.591 11.7 11 13.166 11 15c0 1.933-1.567 3.5-3.5 3.5-1.171 0-2.277-.566-2.917-1.179zM14.583 17.321C13.553 16.227 13 15 13 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311C19.591 11.7 21 13.166 21 15c0 1.933-1.567 3.5-3.5 3.5-1.171 0-2.277-.566-2.917-1.179z" />
+                  </svg>
+                  <p className="text-text text-sm md:text-base leading-relaxed italic">
+                    "{testimonial.quote}"
+                  </p>
+                </div>
+
+                {/* Divider */}
+                <div className="border-t border-border my-5"></div>
+
+                {/* Author */}
+                <div className="flex items-center gap-3">
+                  {/* Avatar */}
+                  <div className="w-10 h-10 rounded-full bg-border overflow-hidden shrink-0">
+                    <img src={testimonial.avatar} alt={testimonial.name} className="w-full h-full object-cover" loading="lazy" />
+                  </div>
+                  <div>
+                    <p className="font-mono font-semibold text-xs tracking-wider text-text">{testimonial.name}</p>
+                    <p className="text-muted text-[11px] tracking-wider uppercase">{testimonial.role}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
         {/* 6. CONTACT */}
-        <section id="contact" className="section-padding relative">
-          <p className="mono-label reveal mb-12">05 — Let's Work</p>
+        <section id="contact" ref={contactRef} className="section-padding relative">
+          <div className="flex items-center gap-6 mb-12 reveal w-full">
+            <h2 className="mono-label !mb-0 text-base md:text-lg font-bold whitespace-nowrap">
+              <span className="text-accent">06</span> <span className="opacity-50 font-normal">—</span> LET'S WORK
+            </h2>
+            <div className="h-px bg-border flex-grow"></div>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16">
             <div className="md:col-span-5 lg:col-span-6 reveal">
               <h2 className="text-step-hero leading-none mb-6">Have a project in mind?</h2>
@@ -886,10 +1068,10 @@ function App() {
           >
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
           </button>
-          <div className="w-full max-w-[400px] relative rounded-2xl overflow-hidden bg-black shadow-2xl" onClick={(e) => e.stopPropagation()}>
-            <div style={{ padding: '177.78% 0 0 0', position: 'relative' }}>
+          <div className={`w-full relative rounded-2xl overflow-hidden bg-black shadow-2xl ${activeVideo.isPortrait ? 'max-w-[400px]' : 'max-w-[1000px]'}`} onClick={(e) => e.stopPropagation()}>
+            <div style={{ padding: activeVideo.isPortrait ? '177.78% 0 0 0' : '56.25% 0 0 0', position: 'relative' }}>
               <iframe
-                src={`${activeVideo}&autoplay=1`}
+                src={`${activeVideo.url}&autoplay=1`}
                 className="w-full h-full absolute top-0 left-0"
                 frameBorder="0"
                 allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
@@ -901,6 +1083,20 @@ function App() {
           </div>
         </div>
       )}
+
+      {/* Floating Contact Button */}
+      <div 
+        className={`fixed end-6 bottom-6 md:end-8 md:bottom-8 z-50 motion-safe:transition-all motion-safe:duration-300 ${showFloatingContact ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-95 pointer-events-none'}`}
+      >
+        <button 
+          onClick={() => scrollTo('contact')}
+          className="bg-accent text-[#EFECE5] shadow-lg shadow-accent/20 hover:shadow-accent/40 rounded-full h-12 md:h-14 flex items-center justify-center gap-2 px-4 md:px-6 motion-safe:transition-all motion-safe:duration-300 motion-safe:hover:scale-105 hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-accent/50"
+          aria-label="Let's Talk"
+        >
+          <span className="hidden md:inline font-medium text-sm tracking-wide">Let's Talk</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13" /><polygon points="22 2 15 22 11 13 2 9 22 2" /></svg>
+        </button>
+      </div>
     </div>
   );
 }
